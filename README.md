@@ -4,7 +4,7 @@ Shows when the armored train arrives and when it leaves, on maps that have one (
 
 - **In the extraction list**: the train's row normally shows `??:??:??` until you reach it. Now its timer counts down to the train's arrival, then to its departure, and the exit name says which: "(arrives in)", "(leaves in)" or "(has left)".
 - **Optional overlay**: a line on screen such as "Armored train arrives in 12:34", off by default.
-- English and Portuguese.
+- English, Portuguese and Russian.
 - Client only. Nothing changes on the server.
 
 "Leaves in" counts down to the moment the train starts departing, which is when the exit begins its countdown for the players on board. After that you can no longer board.

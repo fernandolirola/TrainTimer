@@ -19,6 +19,7 @@ public enum Language
 {
     English,
     Portuguese,
+	Russian,
 }
 
 public enum Corner
@@ -130,6 +131,8 @@ internal static class Schedule
     private static readonly AccessTools.FieldRef<MovingPlatform, DateTime> Depart = AccessTools.FieldRefAccess<MovingPlatform, DateTime>("_depart");
 
     private static bool Pt => Plugin.Lang.Value == Language.Portuguese;
+	private static bool Ru => Plugin.Lang.Value == Language.Russian;
+	
 
     /// <summary>
     /// The route starts at the depart time and each phase begins a fixed number of seconds later. Boarding ends when
@@ -159,20 +162,20 @@ internal static class Schedule
     }
 
     public static string Sentence(Locomotive train) => Phase(train, out var left) switch
-    {
-        TrainPhase.Coming => (Pt ? "Trem blindado chega em " : "Armored train arrives in ") + Clock(left),
-        TrainPhase.Boarding => (Pt ? "Trem blindado parte em " : "Armored train leaves in ") + Clock(left),
-        TrainPhase.Gone => Pt ? "O trem blindado já partiu" : "The armored train has left",
-        _ => "",
-    };
+	{
+		TrainPhase.Coming => (Ru ? "Бронепоезд прибудет через " : Pt ? "Trem blindado chega em " : "Armored train arrives in ") + Clock(left),
+		TrainPhase.Boarding => (Ru ? "Бронепоезд отправится через " : Pt ? "Trem blindado parte em " : "Armored train leaves in ") + Clock(left),
+		TrainPhase.Gone => Ru ? "Бронепоезд уже уехал" : Pt ? "O trem blindado já partiu" : "The armored train has left",
+		_ => "",
+	};
 
     public static string Tag(TrainPhase phase) => phase switch
-    {
-        TrainPhase.Coming => Pt ? "chega em" : "arrives in",
-        TrainPhase.Boarding => Pt ? "parte em" : "leaves in",
-        TrainPhase.Gone => Pt ? "já partiu" : "has left",
-        _ => "",
-    };
+	{
+		TrainPhase.Coming => Ru ? "прибудет через" : Pt ? "chega em" : "arrives in",
+		TrainPhase.Boarding => Ru ? "отправится через" : Pt ? "parte em" : "leaves in",
+		TrainPhase.Gone => Ru ? "уже уехал" : Pt ? "já partiu" : "has left",
+		_ => "",
+	};
 
     public static string Clock(TimeSpan left) =>
         left.TotalHours >= 1 ? $"{(int)left.TotalHours}:{left.Minutes:00}:{left.Seconds:00}" : $"{left.Minutes:00}:{left.Seconds:00}";
